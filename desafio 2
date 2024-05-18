@@ -1,0 +1,281 @@
+Criar o projeto React:
+npx create-react-app parking-control
+cd parking-control
+
+
+  Instalar as dependências necessárias:
+npm install react-router-dom
+
+
+  Estrutura do Projeto
+  parking-control/
+├── public/
+├── src/
+│   ├── components/
+│   │   ├── ReservationForm.js
+│   │   ├── ReservationList.js
+│   │   └── AvailableSlots.js
+│   ├── pages/
+│   │   ├── Home.js
+│   │   ├── ListReservations.js
+│   │   └── CreateReservation.js
+│   ├── App.js
+│   ├── index.js
+│   └── routes.js
+├── package.json
+└── README.md
+
+
+  Desenvolvimento dos Componentes
+  3.1 Formulário de Cadastro (ReservationForm.js)
+  import React, { useState } from 'react';
+
+const ReservationForm = () => {
+  const [formData, setFormData] = useState({
+    licensePlate: '',
+    ownerName: '',
+    apartmentNumber: '',
+    apartmentBlock: '',
+    vehicleModel: '',
+    vehicleColor: '',
+    parkingSlot: ''
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formData);
+    alert('Cadastro realizado com sucesso!');
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Placa do Veículo:
+        <input type="text" name="licensePlate" value={formData.licensePlate} onChange={handleChange} required />
+      </label>
+      <label>
+        Nome do Proprietário:
+        <input type="text" name="ownerName" value={formData.ownerName} onChange={handleChange} required />
+      </label>
+      <label>
+        Número do Apartamento:
+        <input type="text" name="apartmentNumber" value={formData.apartmentNumber} onChange={handleChange} required />
+      </label>
+      <label>
+        Bloco do Apartamento:
+        <input type="text" name="apartmentBlock" value={formData.apartmentBlock} onChange={handleChange} required />
+      </label>
+      <label>
+        Modelo do Veículo:
+        <input type="text" name="vehicleModel" value={formData.vehicleModel} onChange={handleChange} required />
+      </label>
+      <label>
+        Cor do Veículo:
+        <input type="text" name="vehicleColor" value={formData.vehicleColor} onChange={handleChange} required />
+      </label>
+      <label>
+        Número da Vaga:
+        <input type="text" name="parkingSlot" value={formData.parkingSlot} onChange={handleChange} required />
+      </label>
+      <button type="submit">Salvar</button>
+    </form>
+  );
+};
+
+export default ReservationForm;
+
+
+Lista de Reservas (ReservationList.js)
+  import React from 'react';
+
+const ReservationList = () => {
+  // Dados fictícios para exibição
+  const reservations = [
+    {
+      licensePlate: 'ABC-1234',
+      ownerName: 'João Silva',
+      apartmentNumber: '101',
+      apartmentBlock: 'A',
+      vehicleModel: 'Honda Civic',
+      vehicleColor: 'Preto',
+      parkingSlot: '1'
+    },
+    // Mais dados fictícios
+  ];
+
+  return (
+    <div>
+      <h2>Lista de Reservas</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Placa do Veículo</th>
+            <th>Nome do Proprietário</th>
+            <th>Número do Apartamento</th>
+            <th>Bloco do Apartamento</th>
+            <th>Modelo do Veículo</th>
+            <th>Cor do Veículo</th>
+            <th>Número da Vaga</th>
+          </tr>
+        </thead>
+        <tbody>
+          {reservations.map((reservation, index) => (
+            <tr key={index}>
+              <td>{reservation.licensePlate}</td>
+              <td>{reservation.ownerName}</td>
+              <td>{reservation.apartmentNumber}</td>
+              <td>{reservation.apartmentBlock}</td>
+              <td>{reservation.vehicleModel}</td>
+              <td>{reservation.vehicleColor}</td>
+              <td>{reservation.parkingSlot}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default ReservationList;
+
+
+3.3 Vagas Disponíveis (AvailableSlots.js)
+  import React from 'react';
+
+const AvailableSlots = () => {
+  // Dados fictícios para exibição
+  const availableSlots = [2, 3, 5, 8, 9];
+
+  return (
+    <div>
+      <h2>Vagas Disponíveis</h2>
+      <ul>
+        {availableSlots.map((slot, index) => (
+          <li key={index}>Vaga {slot}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default AvailableSlots;
+
+
+4. Páginas
+  4.1 Página Inicial (Home.js)
+
+  import React from 'react';
+import { Link } from 'react-router-dom';
+
+const Home = () => {
+  return (
+    <div>
+      <h1>Controle de Estacionamento</h1>
+      <nav>
+        <ul>
+          <li><Link to="/create-reservation">Cadastrar Reserva</Link></li>
+          <li><Link to="/list-reservations">Listar Reservas</Link></li>
+          <li><Link to="/available-slots">Vagas Disponíveis</Link></li>
+        </ul>
+      </nav>
+    </div>
+  );
+};
+
+export default Home;
+
+
+4.2 Página de Cadastro de Reserva (CreateReservation.js)
+import React from 'react';
+import ReservationForm from '../components/ReservationForm';
+
+const CreateReservation = () => {
+  return (
+    <div>
+      <h2>Cadastrar Reserva</h2>
+      <ReservationForm />
+    </div>
+  );
+};
+
+export default CreateReservation;
+
+
+4.3 Página de Listar Reservas (ListReservations.js)
+import React from 'react';
+import ReservationList from '../components/ReservationList';
+
+const ListReservations = () => {
+  return (
+    <div>
+      <h2>Listar Reservas</h2>
+      <ReservationList />
+    </div>
+  );
+};
+
+export default ListReservations;
+
+
+5. Rotas (routes.js)
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Home from './pages/Home';
+import CreateReservation from './pages/CreateReservation';
+import ListReservations from './pages/ListReservations';
+import AvailableSlots from './components/AvailableSlots';
+
+const Routes = () => {
+  return (
+    <Router>
+      <Switch>
+        <Route path="/" exact component={Home} />
+        <Route path="/create-reservation" component={CreateReservation} />
+        <Route path="/list-reservations" component={ListReservations} />
+        <Route path="/available-slots" component={AvailableSlots} />
+      </Switch>
+    </Router>
+  );
+};
+
+export default Routes;
+
+
+6. Aplicação Principal (App.js)
+import React from 'react';
+import Routes from './routes';
+
+const App = () => {
+  return (
+    <div>
+      <Routes />
+    </div>
+  );
+};
+
+export default App;
+
+
+7. Inicialização do Projeto (index.js)
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+
+
+9. Testar a Aplicação
+npm start
